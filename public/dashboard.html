@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dashboard Giocatore</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logout-button {
+      background-color: #e74c3c;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .container {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+    }
+    .column {
+      background-color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+    #colonna-rosa {
+      flex: 1;
+    }
+    #colonna-centro {
+      flex: 1.2;
+    }
+    #colonna-pulsanti {
+      flex: 1.8;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .colonna-pulsante {
+      padding: 0.75rem;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .colonna-pulsante:hover {
+      background-color: #2980b9;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.4rem;
+      text-align: left;
+    }
+    h2 {
+      margin-top: 0.5rem;
+    }
+  
+    .nav-button {
+      background-color: #3498db;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      text-decoration: none;
+    }
+    .nav-button:hover {
+      background-color: #2980b9;
+    }
+        </style>
+</head>
+<body>
+  <div style="font-size: 0.75rem; color: #666; padding-left: 1rem; padding-top: 0.5rem;">Aggiornato al 10/05/2025 alle 11:30:48</div>
+<header>
+<div style="display: flex; align-items: center;">
+<img alt="Logo FantaLega" src="/logo%20REBOOT.png" style="height: 4.5rem; margin-right: 1rem;"/>
+<h1 id="titolo">Dashboard Giocatore</h1>
+</div>
+<div class="nav-links" style="margin-left: auto; margin-right: 1rem; display: flex; gap: 0.5rem;">
+<a class="nav-button" style="background-color:#e74c3c;" href="/formazioni-generali.html" target="_blank">Formazioni schierate</a>
+<a class="nav-button" href="/registro.pdf" target="_blank">Registro Squadre</a>
+<a class="nav-button" href="/calendario.pdf" target="_blank">Calendario Campionato</a>
+<a class="nav-button" href="/coppa.pdf" target="_blank">Calendario Coppa</a>
+</div>
+<form action="/logout" method="GET">
+<button class="logout-button">Logout</button>
+</form>
+</header>
+<div class="container">
+<div class="column" id="colonna-rosa">
+<h2>Rosa</h2>
+<table id="tabellaRosa"></table>
+</div>
+<div class="column" id="colonna-centro">
+<h2>Classifica</h2>
+<table id="tabellaClassifica"></table>
+<p><strong>Risultati</strong></p>
+<h2 id="titoloRisultati">Ultimi Risultati</h2>
+<div id="partiteRisultati"></div>
+<p><strong>Prossima giornata</strong></p>
+<h2 id="titoloProssima">Prossima Giornata</h2>
+<div id="partiteProssima"></div>
+</div>
+<div class="column" id="colonna-pulsanti">
+<button class="colonna-pulsante" disabled="disabled" id="salvaFormazione" style="width: 60%;">Inserisci Formazione</button>
+<div style="margin-top: 1rem; font-size: 0.8rem; color: #555;">
+<strong>Termine per schierare la formazione:</strong>
+<div id="scadenzaFormazione">Caricamento...</div><br/><strong>Countdown:</strong> <span id="countdownFormazione">-</span>
+<div style="display: flex; gap: 1rem; margin-top: 1rem;">
+<div style="flex: 1;">
+<label for="moduloSelect" style="font-weight: bold;">Modulo:</label>
+<select id="moduloSelect" style="width: 100%; padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;">
+<option>3-4-2-1</option>
+<option>3-4-1-2</option>
+<option>3-4-3</option>
+<option>3-5-1-1</option>
+<option>3-5-2</option>
+<option>4-2-4</option>
+<option>4-2-3-1</option>
+<option>4-3-2-1</option>
+<option>4-3-1-2</option>
+<option>4-3-3</option>
+<option>4-4-2</option>
+<option>4-4-1-1</option>
+<option>4-5-1</option>
+<option>5-3-2</option>
+<option>5-3-1-1</option>
+<option>5-4-1</option>
+</select>
+</div>
+<div style="flex: 1;">
+<label for="capitanoSelect" style="font-weight: bold;">Capitano:</label>
+<select id="capitanoSelect" style="width: 100%; padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;">
+<option>Caricamento rosa...</option>
+</select>
+</div>
+<div style="flex: 1;">
+<label for="vicecapitanoSelect" style="font-weight: bold;">Vicecapitano:</label>
+<select id="vicecapitanoSelect" style="width: 100%; padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;">
+<option>Caricamento rosa...</option>
+</select>
+</div>
+</div>
+<br/><h3 style="margin-top: 2rem;">FORMAZIONE TITOLARE</h3>
+<div style="display: flex; gap: 1rem; margin-bottom: 0.5rem;">
+<div style="flex: 1;">1 <select class="slot-titolare" id="titolare1" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+<div style="flex: 1;">12 <select class="slot-riserva" id="riserva12" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+</div>
+<div style="display: flex; gap: 1rem; margin-bottom: 0.5rem;">
+<div style="flex: 1;">2 <select class="slot-titolare" id="titolare2" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+<div style="flex: 1;">13 <select class="slot-riserva" id="riserva13" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+</div>
+<div style="display: flex; gap: 1rem; margin-bottom: 0.5rem;">
+<div style="flex: 1;">3 <select class="slot-titolare" id="titolare3" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+<div style="flex: 1;">14 <select class="slot-riserva" id="riserva14" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+</div>
+<div style="display: flex; gap: 1rem; margin-bottom: 0.5rem;">
+<div style="flex: 1;">4 <select class="slot-titolare" id="titolare4" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+<div style="flex: 1;">15 <select class="slot-riserva" id="riserva15" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+</div>
+<div style="display: flex; gap: 1rem; margin-bottom: 0.5rem;">
+<div style="flex: 1;">5 <select class="slot-titolare" id="titolare5" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+<div style="flex: 1;">16 <select class="slot-riserva" id="riserva16" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+</div>
+<div style="display: flex; gap: 1rem; margin-bottom: 0.5rem;">
+<div style="flex: 1;">6 <select class="slot-titolare" id="titolare6" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+<div style="flex: 1;">17 <select class="slot-riserva" id="riserva17" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+</div>
+<div style="display: flex; gap: 1rem; margin-bottom: 0.5rem;">
+<div style="flex: 1;">7 <select class="slot-titolare" id="titolare7" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+<div style="flex: 1;">18 <select class="slot-riserva" id="riserva18" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+</div>
+<div style="display: flex; gap: 1rem; margin-bottom: 0.5rem;">
+<div style="flex: 1;">8 <select class="slot-titolare" id="titolare8" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+<div style="flex: 1;">19 <select class="slot-riserva" id="riserva19" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+</div>
+<div style="display: flex; gap: 1rem; margin-bottom: 0.5rem;">
+<div style="flex: 1;">9 <select class="slot-titolare" id="titolare9" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+<div style="flex: 1;">20 <select class="slot-riserva" id="riserva20" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+</div>
+<div style="display: flex; gap: 1rem; margin-bottom: 0.5rem;">
+<div style="flex: 1;">10 <select class="slot-titolare" id="titolare10" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+<div style="flex: 1;">21 <select class="slot-riserva" id="riserva21" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+</div>
+<div style="display: flex; gap: 1rem; margin-bottom: 0.5rem;">
+<div style="flex: 1;">11 <select class="slot-titolare" id="titolare11" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+<div style="flex: 1;">22 <select class="slot-riserva" id="riserva22" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
+</div>
+</div>
+</div>
+</div>
+<script>
+function avviaCountdownFormazione(dataScadenza) {
+      const countdownEl = document.getElementById('countdownFormazione');
+      const target = new Date(dataScadenza).getTime();
+
+      function aggiorna() {
+        const now = new Date().getTime();
+        const distanza = target - now;
+
+        if (distanza < 0) {
+          countdownEl.textContent = "Scaduto";
+          clearInterval(timer);
+          return;
+        }
+
+        const giorni = Math.floor(distanza / (1000 * 60 * 60 * 24));
+        const ore = Math.floor((distanza % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minuti = Math.floor((distanza % (1000 * 60 * 60)) / (1000 * 60));
+        const secondi = Math.floor((distanza % (1000 * 60)) / 1000);
+
+        countdownEl.textContent = `${giorni}g ${ore}h ${minuti}m ${secondi}s`;
+      }
+
+      aggiorna();
+      const timer = setInterval(aggiorna, 1000);
+    }
+
+    let nomeSquadra = "";
+
+    fetch('/utente')
+      .then(res => res.json())
+      .then(data => {
+        nomeSquadra = data.username;
+        document.getElementById('titolo').innerText = `Bentornato, ${nomeSquadra}!`;
+        caricaRosa(nomeSquadra);
+        caricaClassifica();
+        caricaGiornateCentrali();
+        caricaScadenzaFormazione();
+      })
+      .catch(() => {
+        window.location.href = '/';
+      });
+
+    
+function aggiornaDropdownCapitano(rosa) {
+  const select = document.getElementById("capitanoSelect");
+  if (!select) return;
+  select.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const viceSelect = document.getElementById("vicecapitanoSelect");
+  if (viceSelect) viceSelect.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const titolare1 = document.getElementById("titolare1");
+  if (titolare1) titolare1.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const titolare2 = document.getElementById("titolare2");
+  if (titolare2) titolare2.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const titolare3 = document.getElementById("titolare3");
+  if (titolare3) titolare3.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const titolare4 = document.getElementById("titolare4");
+  if (titolare4) titolare4.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const titolare5 = document.getElementById("titolare5");
+  if (titolare5) titolare5.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const titolare6 = document.getElementById("titolare6");
+  if (titolare6) titolare6.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const titolare7 = document.getElementById("titolare7");
+  if (titolare7) titolare7.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const titolare8 = document.getElementById("titolare8");
+  if (titolare8) titolare8.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const titolare9 = document.getElementById("titolare9");
+  if (titolare9) titolare9.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const titolare10 = document.getElementById("titolare10");
+  if (titolare10) titolare10.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const titolare11 = document.getElementById("titolare11");
+  if (titolare11) titolare11.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const riserva12 = document.getElementById("riserva12");
+  if (riserva12) riserva12.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const riserva13 = document.getElementById("riserva13");
+  if (riserva13) riserva13.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const riserva14 = document.getElementById("riserva14");
+  if (riserva14) riserva14.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const riserva15 = document.getElementById("riserva15");
+  if (riserva15) riserva15.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const riserva16 = document.getElementById("riserva16");
+  if (riserva16) riserva16.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const riserva17 = document.getElementById("riserva17");
+  if (riserva17) riserva17.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const riserva18 = document.getElementById("riserva18");
+  if (riserva18) riserva18.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const riserva19 = document.getElementById("riserva19");
+  if (riserva19) riserva19.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const riserva20 = document.getElementById("riserva20");
+  if (riserva20) riserva20.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const riserva21 = document.getElementById("riserva21");
+  if (riserva21) riserva21.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const riserva22 = document.getElementById("riserva22");
+  if (riserva22) riserva22.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  const riserva23 = document.getElementById("riserva23");
+  if (riserva23) riserva23.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+}
+
+
+    function caricaRosa(squadra) {
+      fetch('/REGISTRO.xlsx')
+        .then(res => res.arrayBuffer())
+        .then(buffer => {
+          const data = new Uint8Array(buffer);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const sheet = XLSX.utils.sheet_to_json(workbook.Sheets["REGISTRO"], { header: 1 });
+
+          const intestazioni = sheet[0];
+          const idx = intestazioni.findIndex(h => h && h.toString().trim().toLowerCase() === squadra.toLowerCase());
+
+          if (idx === -1) {
+            document.getElementById("tabellaRosa").innerHTML = `<tr><td colspan="5">Squadra non trovata</td></tr>`;
+            return;
+          }
+
+          const rosa = sheet.slice(1)
+            .map(row => row.slice(idx, idx + 5))
+            .filter(row => row[0]);
+
+          const nomiGiocatori = rosa.map(r => r[0]);
+          aggiornaDropdownCapitano(nomiGiocatori);
+
+          const table = document.getElementById("tabellaRosa");
+          table.innerHTML = `
+            <thead><tr><th>Nome</th><th>Squadra</th><th>Valore</th><th>Contratto</th><th>Ruolo</th></tr></thead>
+            <tbody>
+              ${rosa.map(r => `<tr>${r.map(c => `<td>${c ?? ''}</td>`).join('')}</tr>`).join('')}
+            </tbody>
+          `;
+        })
+        .catch(() => {
+          document.getElementById("tabellaRosa").innerHTML = `<tr><td colspan="5">Errore nel caricamento del file</td></tr>`;
+        });
+    }
+
+    function caricaClassifica() {
+      fetch('/CLASSIFICA.xlsx')
+        .then(res => res.arrayBuffer())
+        .then(buffer => {
+          const data = new Uint8Array(buffer);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const sheet = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
+
+          const table = document.getElementById("tabellaClassifica");
+          table.innerHTML = sheet.map(row => `<tr>${row.map(cell => `<td>${cell ?? ''}</td>`).join('')}</tr>`).join('');
+        })
+        .catch(() => {
+          document.getElementById("tabellaClassifica").innerHTML = "<tr><td>Errore nel caricamento della classifica.</td></tr>";
+        });
+    }
+
+    function caricaGiornateCentrali() {
+      fetch('/api/config')
+        .then(res => res.json())
+        .then(cfg => {
+          mostraGiornata(cfg.giornataRisultati, 'partiteRisultati', 'titoloRisultati');
+          mostraGiornata(cfg.giornataProssima, 'partiteProssima', 'titoloProssima');
+        });
+    }
+
+    
+    function caricaScadenzaFormazione() {
+      fetch('/api/config')
+        .then(res => res.json())
+        .then(cfg => {
+          document.getElementById('scadenzaFormazione').textContent = cfg.scadenzaFormazione || "Non impostato";
+          if (cfg.scadenzaFormazione) avviaCountdownFormazione(cfg.scadenzaFormazione);
+        })
+        .catch(() => {
+          document.getElementById('scadenzaFormazione').textContent = "Errore nel caricamento";
+        });
+    }
+
+
+    function mostraGiornata(label, contenitoreId, titoloId) {
+      if (!label) return;
+      fetch(`/api/giornata?label=${encodeURIComponent(label)}`)
+        .then(res => res.json())
+        .then(data => {
+          const contenitore = document.getElementById(contenitoreId);
+          const titolo = document.getElementById(titoloId);
+          titolo.textContent = data.label || '';
+          contenitore.innerHTML = '<table>' +
+            data.partite.map(r => {
+              if (Array.isArray(r)) {
+                return `<tr>${r.map(c => `<td>${c ?? ''}</td>`).join('')}</tr>`;
+              } else {
+                return `<tr><td colspan="4">${r}</td></tr>`;
+              }
+            }).join('') +
+            '</table>';
+        })
+        .catch(err => {
+          document.getElementById(contenitoreId).innerHTML = `<p>Errore nel caricamento.</p>`;
+        });
+    }
+  </script>
+<script>
+document.getElementById("salvaFormazione").addEventListener("click", function () {
+  const modulo = document.getElementById("moduloSelect").value;
+  const capitano = document.getElementById("capitanoSelect").value;
+  const vicecapitano = document.getElementById("vicecapitanoSelect").value;
+
+  const formazione = {
+    utente: nomeSquadra,
+    modulo,
+    capitano,
+    vicecapitano,
+    slot: {}
+  };
+
+  for (let i = 1; i <= 11; i++) {
+    const val = document.getElementById(`titolare${i}`)?.value || "";
+    formazione.slot[`slot${String(i).padStart(2, '0')}`] = val;
+  }
+
+  for (let i = 12; i <= 22; i++) {
+    const val = document.getElementById(`riserva${i}`)?.value || "";
+    formazione.slot[`slot${String(i).padStart(2, '0')}`] = val;
+  }
+
+  fetch("/api/formazione", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(formazione)
+  })
+  .then(res => {
+    if (res.ok) {
+      alert("✅ Formazione salvata con successo!");
+    } else {
+      alert("❌ Errore nel salvataggio della formazione.");
+    }
+  })
+  .catch(() => {
+    alert("❌ Errore di rete nel salvataggio.");
+  });
+});
+</script><script>
+fetch('/api/config')
+  .then(res => res.json())
+  .then(cfg => {
+    const limite = new Date(cfg.scadenzaFormazione).getTime();
+    const oraAttuale = new Date().getTime();
+    const btn = document.getElementById("salvaFormazione");
+    if (btn) {
+      if (oraAttuale < limite) {
+        btn.removeAttribute("disabled");
+      } else {
+        btn.textContent = "Tempo Scaduto";
+      }
+    }
+  });
+</script></body>
+</html>
