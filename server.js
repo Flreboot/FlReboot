@@ -119,7 +119,7 @@ app.post('/api/formazione', (req, res) => {
   req.on('end', () => {
     try {
       const nuovaFormazione = JSON.parse(body);
-      const filePath = path.join(__dirname, 'formazioni.json');
+      const filePath = path.join(__dirname, 'public', 'formazioni.json');
       let formazioni = [];
 
       if (fs.existsSync(filePath)) {
@@ -152,7 +152,7 @@ app.post('/api/formazione', (req, res) => {
 
 
 app.get('/api/formazioni', (req, res) => {
-  const filePath = path.join(__dirname, 'formazioni.json');
+  const filePath = path.join(__dirname, 'public', 'formazioni.json');
   if (fs.existsSync(filePath)) {
     const json = fs.readFileSync(filePath, 'utf-8');
     res.setHeader('Content-Type', 'application/json');

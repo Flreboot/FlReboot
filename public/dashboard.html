@@ -13,7 +13,7 @@
       background-color: #f4f4f4;
     }
     header {
-      background-color: #2c3e50;
+      background-color: #1e3f66;
       color: white;
       padding: 1rem;
       display: flex;
@@ -92,15 +92,15 @@
         </style>
 </head>
 <body>
-  <div style="font-size: 0.75rem; color: #666; padding-left: 1rem; padding-top: 0.5rem;">Aggiornato al 10/05/2025 alle 11:30:48</div>
+<div style="font-size: 0.75rem; color: #666; padding-left: 1rem; padding-top: 0.5rem;">Aggiornato al 10/05/2025 alle 11:30:48</div>
 <header>
 <div style="display: flex; align-items: center;">
 <img alt="Logo FantaLega" src="/logo%20REBOOT.png" style="height: 4.5rem; margin-right: 1rem;"/>
 <h1 id="titolo">Dashboard Giocatore</h1>
 </div>
 <div class="nav-links" style="margin-left: auto; margin-right: 1rem; display: flex; gap: 0.5rem;">
-<a class="nav-button" style="background-color:#e74c3c;" href="/formazioni-generali.html" target="_blank">Formazioni schierate</a>
-<a class="nav-button" href="/registro.pdf" target="_blank">Registro Squadre</a>
+<a class="nav-button" href="/formazioni-generali.html" style="background-color:#e74c3c;" target="_blank">Formazioni schierate</a>
+<a class="nav-button" href="#registro-img" target="_self">Registro Squadre</a>
 <a class="nav-button" href="/calendario.pdf" target="_blank">Calendario Campionato</a>
 <a class="nav-button" href="/coppa.pdf" target="_blank">Calendario Coppa</a>
 </div>
@@ -208,7 +208,7 @@
 <div style="flex: 1;">11 <select class="slot-titolare" id="titolare11" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
 <div style="flex: 1;">22 <select class="slot-riserva" id="riserva22" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div>
 </div>
-</div>
+<div style="display: flex; gap: 1rem; margin-bottom: 0.5rem;"><div style="flex: 1;"> - </div><div style="flex: 1;">23 <select class="slot-riserva" id="riserva23" style="padding: 0.4rem; border-radius: 4px; border: 1px solid #ccc; font-size: 0.8rem;"><option>Caricamento rosa...</option></select></div></div></div>
 </div>
 </div>
 <script>
@@ -258,55 +258,56 @@ function avviaCountdownFormazione(dataScadenza) {
 function aggiornaDropdownCapitano(rosa) {
   const select = document.getElementById("capitanoSelect");
   if (!select) return;
-  select.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  select.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const viceSelect = document.getElementById("vicecapitanoSelect");
-  if (viceSelect) viceSelect.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (viceSelect) viceSelect.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const titolare1 = document.getElementById("titolare1");
-  if (titolare1) titolare1.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (titolare1) titolare1.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const titolare2 = document.getElementById("titolare2");
-  if (titolare2) titolare2.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (titolare2) titolare2.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const titolare3 = document.getElementById("titolare3");
-  if (titolare3) titolare3.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (titolare3) titolare3.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const titolare4 = document.getElementById("titolare4");
-  if (titolare4) titolare4.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (titolare4) titolare4.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const titolare5 = document.getElementById("titolare5");
-  if (titolare5) titolare5.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (titolare5) titolare5.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const titolare6 = document.getElementById("titolare6");
-  if (titolare6) titolare6.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (titolare6) titolare6.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const titolare7 = document.getElementById("titolare7");
-  if (titolare7) titolare7.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (titolare7) titolare7.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const titolare8 = document.getElementById("titolare8");
-  if (titolare8) titolare8.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (titolare8) titolare8.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const titolare9 = document.getElementById("titolare9");
-  if (titolare9) titolare9.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (titolare9) titolare9.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const titolare10 = document.getElementById("titolare10");
-  if (titolare10) titolare10.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (titolare10) titolare10.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const titolare11 = document.getElementById("titolare11");
-  if (titolare11) titolare11.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (titolare11) titolare11.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const riserva12 = document.getElementById("riserva12");
-  if (riserva12) riserva12.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (riserva12) riserva12.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const riserva13 = document.getElementById("riserva13");
-  if (riserva13) riserva13.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (riserva13) riserva13.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const riserva14 = document.getElementById("riserva14");
-  if (riserva14) riserva14.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (riserva14) riserva14.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const riserva15 = document.getElementById("riserva15");
-  if (riserva15) riserva15.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (riserva15) riserva15.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const riserva16 = document.getElementById("riserva16");
-  if (riserva16) riserva16.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (riserva16) riserva16.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const riserva17 = document.getElementById("riserva17");
-  if (riserva17) riserva17.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (riserva17) riserva17.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const riserva18 = document.getElementById("riserva18");
-  if (riserva18) riserva18.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (riserva18) riserva18.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const riserva19 = document.getElementById("riserva19");
-  if (riserva19) riserva19.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (riserva19) riserva19.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const riserva20 = document.getElementById("riserva20");
-  if (riserva20) riserva20.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (riserva20) riserva20.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const riserva21 = document.getElementById("riserva21");
-  if (riserva21) riserva21.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (riserva21) riserva21.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const riserva22 = document.getElementById("riserva22");
-  if (riserva22) riserva22.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (riserva22) riserva22.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
   const riserva23 = document.getElementById("riserva23");
-  if (riserva23) riserva23.innerHTML = rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  if (riserva23) riserva23.innerHTML = `<option value=''></option>` + rosa.map(giocatore => `<option>${giocatore}</option>`).join('');
+  collegaAggiornamentoSlot();
 }
 
 
@@ -409,6 +410,46 @@ function aggiornaDropdownCapitano(rosa) {
     }
   </script>
 <script>
+
+function aggiornaDisponibilitàGiocatori() {
+  const slotIds = [];
+  for (let i = 1; i <= 11; i++) slotIds.push(`titolare${i}`);
+  for (let i = 12; i <= 23; i++) slotIds.push(`riserva${i}`);
+
+  const selezionati = new Set();
+  slotIds.forEach(id => {
+    const val = document.getElementById(id)?.value;
+    if (val && val !== "Caricamento rosa...") {
+      selezionati.add(val);
+    }
+  });
+
+  slotIds.forEach(id => {
+    const select = document.getElementById(id);
+    if (!select) return;
+
+    const currentValue = select.value;
+    const options = Array.from(select.options);
+    options.forEach(option => {
+      option.disabled = selezionati.has(option.value) && option.value !== currentValue;
+    });
+  });
+}
+
+function collegaAggiornamentoSlot() {
+  const slotIds = [];
+  for (let i = 1; i <= 11; i++) slotIds.push(`titolare${i}`);
+  for (let i = 12; i <= 23; i++) slotIds.push(`riserva${i}`);
+
+  slotIds.forEach(id => {
+    const select = document.getElementById(id);
+    if (select) {
+      select.addEventListener("change", aggiornaDisponibilitàGiocatori);
+    }
+  });
+}
+
+
 document.getElementById("salvaFormazione").addEventListener("click", function () {
   const modulo = document.getElementById("moduloSelect").value;
   const capitano = document.getElementById("capitanoSelect").value;
@@ -427,7 +468,7 @@ document.getElementById("salvaFormazione").addEventListener("click", function ()
     formazione.slot[`slot${String(i).padStart(2, '0')}`] = val;
   }
 
-  for (let i = 12; i <= 22; i++) {
+  for (let i = 12; i <= 23; i++) {
     const val = document.getElementById(`riserva${i}`)?.value || "";
     formazione.slot[`slot${String(i).padStart(2, '0')}`] = val;
   }
@@ -450,20 +491,32 @@ document.getElementById("salvaFormazione").addEventListener("click", function ()
     alert("❌ Errore di rete nel salvataggio.");
   });
 });
-</script><script>
-fetch('/api/config')
-  .then(res => res.json())
-  .then(cfg => {
-    const limite = new Date(cfg.scadenzaFormazione).getTime();
-    const oraAttuale = new Date().getTime();
-    const btn = document.getElementById("salvaFormazione");
-    if (btn) {
-      if (oraAttuale < limite) {
-        btn.removeAttribute("disabled");
-      } else {
-        btn.textContent = "Tempo Scaduto";
+</script>
+<div style="text-align: center; margin-top: 2rem;">
+<img alt="Registro Squadre" id="registro-img" src="/REGISTRO.jpg" style="max-width: 95%; height: auto; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.2);"/>
+</div>
+
+<script>
+window.addEventListener("load", () => {
+  fetch('/api/config')
+    .then(res => res.json())
+    .then(cfg => {
+      const limite = new Date(cfg.scadenzaFormazione).getTime();
+      const oraAttuale = new Date().getTime();
+      const btn = document.getElementById("salvaFormazione");
+      if (btn) {
+        if (oraAttuale < limite) {
+          btn.removeAttribute("disabled");
+        } else {
+          btn.textContent = "Tempo Scaduto";
+        }
       }
-    }
-  });
-</script></body>
+    })
+    .catch(() => {
+      console.warn("⚠️ Errore nel caricamento della scadenza formazione.");
+    });
+});
+</script>
+
+</body>
 </html>
